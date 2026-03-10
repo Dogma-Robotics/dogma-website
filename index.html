@@ -826,6 +826,16 @@
   @keyframes heroIn {
     to { opacity: 1; transform: translateY(0); }
   }
+
+  /* Math character rendering */
+  .math-char {
+    font-family: Georgia, "Times New Roman", "DejaVu Serif", serif;
+  }
+  .math-cal {
+    font-family: Georgia, "Times New Roman", "Book Antiqua", serif;
+    font-style: italic;
+    font-size: 1.1em;
+  }
 </style>
 </head>
 <body>
@@ -923,7 +933,7 @@
           and multi-modal state estimation across 10 real-time control layers.
         </p>
         <p class="product-body" style="margin-bottom:0">
-          At its core: τ = −J_L(θ)ᵀ · F. Every dexterous action reduces to force vectors 
+          At its core: τ = −J_L(θ)<sup style="font-size:0.7em">T</sup> · F. Every dexterous action reduces to force vectors 
           acting through anatomically-faithful routing geometry.
         </p>
         <div class="specs-grid reveal-stagger" style="margin-top:40px">
@@ -948,7 +958,7 @@
           <div class="arch-layer" data-tier="cognitive"><div class="arch-id">M7</div><div class="arch-name">Active Inference Policy</div><div class="arch-hz">10–30 Hz</div></div>
           <div class="arch-layer" data-tier="estimation"><div class="arch-id">M5</div><div class="arch-name">Fusion Observer · EKF+GRU</div><div class="arch-hz">60–120 Hz</div></div>
           <div class="arch-layer" data-tier="estimation"><div class="arch-id">M4</div><div class="arch-name">Vision · Stereo SE(3)</div><div class="arch-hz">30 Hz</div></div>
-          <div class="arch-layer" data-tier="estimation"><div class="arch-id">M3</div><div class="arch-name">Proprioception · McKibben⁻¹</div><div class="arch-hz">100–300 Hz</div></div>
+          <div class="arch-layer" data-tier="estimation"><div class="arch-id">M3</div><div class="arch-name">Proprioception · McKibben<sup style="font-size:0.7em">-</sup>¹</div><div class="arch-hz">100–300 Hz</div></div>
           <div class="arch-layer" data-tier="control"><div class="arch-id">M6</div><div class="arch-name">Reflex Layer · Anti-slip</div><div class="arch-hz">100–300 Hz</div></div>
           <div class="arch-layer" data-tier="control"><div class="arch-id">M2</div><div class="arch-name">Force / Impedance · QP</div><div class="arch-hz">200–500 Hz</div></div>
           <div class="arch-layer" data-tier="actuation"><div class="arch-id">M1</div><div class="arch-name">Pressure Servo · 54× PID</div><div class="arch-hz">500–1000 Hz</div></div>
@@ -1112,12 +1122,12 @@
       <div class="tech-card-body">
         Joint angles are never measured. M3 inverts the McKibben muscle model to estimate 
         posture from hydraulic pressure and tendon tension. M5 fuses this with stereo vision 
-        through an EKF+GRU observer maintaining a persistent "internal spacetime" latent state ŵ.
+        through an EKF+GRU observer maintaining a persistent "internal spacetime" latent state <span class="math-char">ŵ</span>.
       </div>
       <div class="tech-eq">
-        ε̂ᵢ = fᵢ⁻¹(pᵢ, |Fᵢ|)<br>
-        Δθ̂ = J_L⁺ · Δℓ̂<br>
-        ŵₜ₊₁ = GRU(ŵₜ, [θ̂; x_tac; F; p])
+        ε<sup style="font-size:0.65em;vertical-align:top;line-height:1;">^</sup><sub style="font-size:0.7em">i</sub> = f<sub style="font-size:0.7em">i</sub><sup style="font-size:0.7em">-</sup>¹(p<sub style="font-size:0.7em">i</sub>, |F<sub style="font-size:0.7em">i</sub>|)<br>
+        Δθ<sup style="font-size:0.65em;vertical-align:top;line-height:1;">^</sup> = J_L<sup style="font-size:0.7em">+</sup> · Δℓ<sup style="font-size:0.65em;vertical-align:top;line-height:1;">^</sup><br>
+        <span class="math-char">ŵ</span><sub style="font-size:0.7em">t</sub><sub style="font-size:0.7em">+</sub><sub style="font-size:0.7em">1</sub> = GRU(<span class="math-char">ŵ</span><sub style="font-size:0.7em">t</sub>, [θ<sup style="font-size:0.65em;vertical-align:top;line-height:1;">^</sup>; x_tac; F; p])
       </div>
     </div>
     <div class="tech-card">
@@ -1139,13 +1149,13 @@
       <div class="tech-card-title">Quantum-Like Mode Selection</div>
       <div class="tech-card-body">
         Under ambiguity, M7 maintains a cognitive density matrix ρ over discrete grasp modes. 
-        Context-dependent phases φₘ(c) induce interference — order effects that mirror biological 
+        Context-dependent phases φ<sub style="font-size:0.7em">m</sub>(c) induce interference — order effects that mirror biological 
         decision-making. Epistemic micro-probes resolve ambiguity before commitment.
       </div>
       <div class="tech-eq">
-        ψₘ = √q(m) · exp(iφₘ(c))<br>
+        ψ<sub style="font-size:0.7em">m</sub> = √q(m) · exp(iφ<sub style="font-size:0.7em">m</sub>(c))<br>
         ρ = |ψ⟩⟨ψ|  ·  Tr(ρ) = 1<br>
-        ρ ← √Eₖ · ρ · √Eₖ / Tr(Eₖρ)
+        ρ ← √E<sub style="font-size:0.7em">k</sub> · ρ · √E<sub style="font-size:0.7em">k</sub> / Tr(E<sub style="font-size:0.7em">k</sub>ρ)
       </div>
     </div>
   </div>
@@ -1184,7 +1194,7 @@
           "We present a 10-layer control architecture for a 30-DOF humanoid hand driven by 54 McKibben 
           hydraulic muscles. Joint angles are never measured — posture is estimated from muscle 
           pressures via model inversion, fused with stereo vision in an EKF+GRU observer 
-          maintaining a persistent internal spacetime state ŵ. A variational Active Inference 
+          maintaining a persistent internal spacetime state <span class="math-char">ŵ</span>. A variational Active Inference 
           policy (M7) minimizes free energy F(q) while a quantum-like density matrix ρ resolves 
           grasp mode ambiguity through context-sensitive interference."
         </p>
@@ -1212,7 +1222,7 @@
       <div style="background:var(--ink); padding:32px 28px;">
         <div style="font-family:var(--mono); font-size:8px; letter-spacing:0.18em; text-transform:uppercase; color:rgba(255,255,255,0.3); margin-bottom:16px;">Optimal Preload (QP)</div>
         <div style="font-family:var(--mono); font-size:13px; color:white; line-height:2; margin-bottom:16px;">
-          F₀ = argmin ‖J<sub style="font-size:9px">L</sub>ᵀF‖²<br>
+          F<sub style="font-size:0.7em">0</sub> = argmin ‖J<sub style="font-size:9px">L</sub><sup style="font-size:0.7em">T</sup>F‖²<br>
           + ρ‖F − F<sub style="font-size:9px">prior</sub>‖²
         </div>
         <div style="font-size:11px; color:rgba(255,255,255,0.4); line-height:1.6;">
@@ -1223,8 +1233,8 @@
       <div style="background:var(--ink); padding:32px 28px;">
         <div style="font-family:var(--mono); font-size:8px; letter-spacing:0.18em; text-transform:uppercase; color:rgba(255,255,255,0.3); margin-bottom:16px;">McKibben Inversion (M3)</div>
         <div style="font-family:var(--mono); font-size:13px; color:white; line-height:2; margin-bottom:16px;">
-          ε̂<sub style="font-size:9px">i</sub> = f<sub style="font-size:9px">i</sub><sup style="font-size:9px">−1</sup>(p<sub style="font-size:9px">i</sub>, |F<sub style="font-size:9px">i</sub>|)<br>
-          Δθ̂ = J<sub style="font-size:9px">L</sub><sup style="font-size:9px">+</sup> · Δℓ̂
+          ε<sup style="font-size:0.65em;vertical-align:top;line-height:1;">^</sup><sub style="font-size:9px">i</sub> = f<sub style="font-size:9px">i</sub><sup style="font-size:9px">−1</sup>(p<sub style="font-size:9px">i</sub>, |F<sub style="font-size:9px">i</sub>|)<br>
+          Δθ<sup style="font-size:0.65em;vertical-align:top;line-height:1;">^</sup> = J<sub style="font-size:9px">L</sub><sup style="font-size:9px">+</sup> · Δℓ<sup style="font-size:0.65em;vertical-align:top;line-height:1;">^</sup>
         </div>
         <div style="font-size:11px; color:rgba(255,255,255,0.4); line-height:1.6;">
           Contraction inverted from pressure + tension. Joint angles inferred, never measured.
@@ -1245,11 +1255,11 @@
       <div style="background:var(--off); border:1px solid var(--mist); padding:32px 28px;">
         <div style="font-family:var(--mono); font-size:8px; letter-spacing:0.18em; text-transform:uppercase; color:var(--stone); margin-bottom:16px;">Quantum-Like Grasp (M7)</div>
         <div style="font-family:var(--mono); font-size:13px; color:var(--ink); line-height:2; margin-bottom:16px;">
-          ψ<sub style="font-size:9px">m</sub> = √q(m) · e<sup style="font-size:9px">iφₘ(c)</sup><br>
+          ψ<sub style="font-size:9px">m</sub> = √q(m) · e<sup style="font-size:9px">iφ<sub style="font-size:0.7em">m</sub>(c)</sup><br>
           ρ = |ψ⟩⟨ψ| · Tr(ρ) = 1
         </div>
         <div style="font-size:11px; color:var(--stone); line-height:1.6;">
-          Density matrix over grasp modes. Context phases φₘ(c) create interference — mirrors biological ambiguity resolution.
+          Density matrix over grasp modes. Context phases φ<sub style="font-size:0.7em">m</sub>(c) create interference — mirrors biological ambiguity resolution.
         </div>
       </div>
 
@@ -1257,10 +1267,10 @@
         <div style="font-family:var(--mono); font-size:8px; letter-spacing:0.18em; text-transform:uppercase; color:var(--stone); margin-bottom:16px;">Fusion Observer (M5)</div>
         <div style="font-family:var(--mono); font-size:13px; color:var(--ink); line-height:2; margin-bottom:16px;">
           α = g<sub style="font-size:9px">cam</sub> / (g<sub style="font-size:9px">cam</sub> + g<sub style="font-size:9px">prop</sub> + ε)<br>
-          ŵ<sub style="font-size:9px">t+1</sub> = GRU(ŵ<sub style="font-size:9px">t</sub>, [θ̂; x<sub style="font-size:9px">tac</sub>; F; p])
+          <span class="math-char">ŵ</span><sub style="font-size:9px">t+1</sub> = GRU(<span class="math-char">ŵ</span><sub style="font-size:9px">t</sub>, [θ<sup style="font-size:0.65em;vertical-align:top;line-height:1;">^</sup>; x<sub style="font-size:9px">tac</sub>; F; p])
         </div>
         <div style="font-size:11px; color:var(--stone); line-height:1.6;">
-          Vision/proprioception blended by confidence. GRU maintains "internal spacetime" ŵ across time.
+          Vision/proprioception blended by confidence. GRU maintains "internal spacetime" <span class="math-char">ŵ</span> across time.
         </div>
       </div>
 
@@ -1278,7 +1288,7 @@
         <div style="color:rgba(255,255,255,0.2); font-size:18px; padding:0 4px;">→</div>
 
         <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:14px 20px; text-align:center;">
-          <div style="font-family:var(--mono); font-size:8px; letter-spacing:0.12em; color:rgba(255,255,255,0.35); margin-bottom:4px;">𝓔 M3+M4+M5</div>
+          <div style="font-family:var(--mono); font-size:8px; letter-spacing:0.12em; color:rgba(255,255,255,0.35); margin-bottom:4px;"><span class="math-cal">ℰ</span> M3+M4+M5</div>
           <div style="font-family:var(--sans); font-size:11px; font-weight:500; color:white;">Estimation</div>
         </div>
         <div style="color:rgba(255,255,255,0.2); font-size:18px; padding:0 4px;">→</div>
@@ -1290,19 +1300,19 @@
         <div style="color:rgba(255,255,255,0.2); font-size:18px; padding:0 4px;">→</div>
 
         <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:14px 20px; text-align:center;">
-          <div style="font-family:var(--mono); font-size:8px; letter-spacing:0.12em; color:rgba(255,255,255,0.35); margin-bottom:4px;">𝓛 M8</div>
+          <div style="font-family:var(--mono); font-size:8px; letter-spacing:0.12em; color:rgba(255,255,255,0.35); margin-bottom:4px;"><span class="math-cal">ℒ</span> M8</div>
           <div style="font-family:var(--sans); font-size:11px; font-weight:500; color:white;">Language</div>
         </div>
         <div style="color:rgba(255,255,255,0.2); font-size:18px; padding:0 4px;">→</div>
 
         <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:14px 20px; text-align:center;">
-          <div style="font-family:var(--mono); font-size:8px; letter-spacing:0.12em; color:rgba(255,255,255,0.35); margin-bottom:4px;">𝓠 M7</div>
+          <div style="font-family:var(--mono); font-size:8px; letter-spacing:0.12em; color:rgba(255,255,255,0.35); margin-bottom:4px;"><span class="math-cal">𝒬</span> M7</div>
           <div style="font-family:var(--sans); font-size:11px; font-weight:500; color:white;">Quantum ρ</div>
         </div>
         <div style="color:rgba(255,255,255,0.2); font-size:18px; padding:0 4px;">→</div>
 
         <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:14px 20px; text-align:center;">
-          <div style="font-family:var(--mono); font-size:8px; letter-spacing:0.12em; color:rgba(255,255,255,0.35); margin-bottom:4px;">𝓐 M7</div>
+          <div style="font-family:var(--mono); font-size:8px; letter-spacing:0.12em; color:rgba(255,255,255,0.35); margin-bottom:4px;"><span class="math-cal">𝒜</span> M7</div>
           <div style="font-family:var(--sans); font-size:11px; font-weight:500; color:white;">Active Inf.</div>
         </div>
         <div style="color:rgba(255,255,255,0.2); font-size:18px; padding:0 4px;">→</div>
@@ -1314,13 +1324,13 @@
         <div style="color:rgba(255,255,255,0.2); font-size:18px; padding:0 4px;">→</div>
 
         <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:14px 20px; text-align:center;">
-          <div style="font-family:var(--mono); font-size:8px; letter-spacing:0.12em; color:rgba(255,255,255,0.35); margin-bottom:4px;">𝓟 M1+M2</div>
+          <div style="font-family:var(--mono); font-size:8px; letter-spacing:0.12em; color:rgba(255,255,255,0.35); margin-bottom:4px;"><span class="math-cal">𝒫</span> M1+M2</div>
           <div style="font-family:var(--sans); font-size:11px; font-weight:500; color:white;">Servo</div>
         </div>
         <div style="color:rgba(255,255,255,0.2); font-size:18px; padding:0 4px;">→</div>
 
         <div style="background:rgba(196,30,58,0.15); border:1px solid rgba(196,30,58,0.4); padding:14px 20px; text-align:center;">
-          <div style="font-family:var(--mono); font-size:8px; letter-spacing:0.12em; color:rgba(255,100,100,0.6); margin-bottom:4px;">𝓑 Hardware</div>
+          <div style="font-family:var(--mono); font-size:8px; letter-spacing:0.12em; color:rgba(255,100,100,0.6); margin-bottom:4px;"><span class="math-cal">ℬ</span> Hardware</div>
           <div style="font-family:var(--sans); font-size:11px; font-weight:500; color:white;">Biomech.</div>
         </div>
         <div style="color:rgba(255,255,255,0.2); font-size:18px; padding:0 4px;">→</div>
@@ -1426,7 +1436,7 @@
           </div>
           <div style="padding:10px 16px; background:var(--white); border:1px solid var(--mist); display:flex; justify-content:space-between; align-items:center;">
             <span style="font-family:var(--mono); font-size:10px; font-weight:500;">reach_pregrasp</span>
-            <span style="font-family:var(--sans); font-size:11px; color:var(--stone);">Preform + approach via T̂_obj · M4</span>
+            <span style="font-family:var(--sans); font-size:11px; color:var(--stone);">Preform + approach via T<sup style="font-size:0.65em;vertical-align:top;line-height:1;">^</sup>_obj · M4</span>
           </div>
           <div style="padding:10px 16px; background:var(--white); border:1px solid var(--mist); display:flex; justify-content:space-between; align-items:center;">
             <span style="font-family:var(--mono); font-size:10px; font-weight:500;">probe_uncertainty</span>
@@ -1540,6 +1550,14 @@
         <div class="contact-row-v">Mexico City, Mexico</div>
       </div>
       <div class="contact-row">
+        <div class="contact-row-l">Email</div>
+        <div class="contact-row-v"><a href="mailto:jortizl@dogmarobotics.com" style="color:inherit;text-decoration:none;border-bottom:1px solid var(--mist);">jortizl@dogmarobotics.com</a></div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-row-l">Phone</div>
+        <div class="contact-row-v"><a href="tel:+525543842152" style="color:inherit;text-decoration:none;border-bottom:1px solid var(--mist);">+52 55 4384 2152</a></div>
+      </div>
+      <div class="contact-row">
         <div class="contact-row-l">Focus</div>
         <div class="contact-row-v">Humanoid Dexterous Manipulation</div>
       </div>
@@ -1552,55 +1570,74 @@
         <div class="contact-row-v">Genesis Hand V7.1 · DOGMA Arm 6-DOF</div>
       </div>
     </div>
+
+    <!-- Direct contact CTAs -->
+    <div style="display:flex;gap:12px;margin-top:32px;flex-wrap:wrap;">
+      <a href="mailto:jortizl@dogmarobotics.com" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:var(--ink);color:white;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;transition:background 0.2s,transform 0.2s;" onmouseenter="this.style.background='var(--red)';this.style.transform='translateY(-2px)'" onmouseleave="this.style.background='var(--ink)';this.style.transform='translateY(0)'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        Email Us
+      </a>
+      <a href="tel:+525543842152" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:transparent;color:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;border:1px solid var(--ink);transition:background 0.2s,transform 0.2s,color 0.2s;" onmouseenter="this.style.background='var(--ink)';this.style.color='white';this.style.transform='translateY(-2px)'" onmouseleave="this.style.background='transparent';this.style.color='var(--ink)';this.style.transform='translateY(0)'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Call Us
+      </a>
+    </div>
   </div>
 
   <div class="form-wrap reveal">
-    <div class="form-row">
-      <div class="field">
-        <label>First Name</label>
-        <input type="text" placeholder="Jero">
+    <div id="form-success" style="display:none;text-align:center;padding:60px 20px;">
+      <div style="font-size:48px;margin-bottom:16px;">✓</div>
+      <div style="font-family:var(--display);font-size:24px;font-weight:700;margin-bottom:8px;">Message sent.</div>
+      <div style="font-family:var(--sans);font-size:14px;color:var(--stone);">We'll respond to <span id="form-email-confirm"></span> within 24 hours.</div>
+    </div>
+    <div id="form-fields">
+      <div class="form-row">
+        <div class="field">
+          <label>First Name</label>
+          <input type="text" id="f-fname" placeholder="Jero">
+        </div>
+        <div class="field">
+          <label>Last Name</label>
+          <input type="text" id="f-lname" placeholder="García">
+        </div>
       </div>
       <div class="field">
-        <label>Last Name</label>
-        <input type="text" placeholder="García">
+        <label>Email</label>
+        <input type="email" id="f-email" placeholder="you@company.com">
       </div>
+      <div class="field">
+        <label>Organization</label>
+        <input type="text" id="f-org" placeholder="Company / Institution">
+      </div>
+      <div class="field">
+        <label>I am a</label>
+        <select id="f-role">
+          <option value="">Select...</option>
+          <option>Investor / VC</option>
+          <option>Research Partner</option>
+          <option>Potential Customer</option>
+          <option>Press / Media</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Message</label>
+        <textarea id="f-msg" placeholder="Tell us about your interest in DOGMA..."></textarea>
+      </div>
+      <button class="form-submit" type="button" id="form-btn" onclick="submitForm()">Send Message</button>
     </div>
-    <div class="field">
-      <label>Email</label>
-      <input type="email" placeholder="you@company.com">
-    </div>
-    <div class="field">
-      <label>Organization</label>
-      <input type="text" placeholder="Company / Institution">
-    </div>
-    <div class="field">
-      <label>I am a</label>
-      <select>
-        <option value="">Select...</option>
-        <option>Investor / VC</option>
-        <option>Research Partner</option>
-        <option>Potential Customer</option>
-        <option>Press / Media</option>
-        <option>Other</option>
-      </select>
-    </div>
-    <div class="field">
-      <label>Message</label>
-      <textarea placeholder="Tell us about your interest in DOGMA..."></textarea>
-    </div>
-    <button class="form-submit" type="button">Send Message</button>
   </div>
 </section>
 
 <!-- Footer -->
 <footer>
   <div class="footer-brand">DOGMA</div>
-  <div class="footer-copy">© 2025 DOGMA Robotics · Genesis Hand V7.1</div>
+  <div class="footer-copy">© 2026 DOGMA Robotics · Genesis Hand V7.1 · <a href="mailto:jortizl@dogmarobotics.com" style="color:inherit;opacity:0.5;text-decoration:none;">jortizl@dogmarobotics.com</a> · <a href="tel:+525543842152" style="color:inherit;opacity:0.5;text-decoration:none;">+52 55 4384 2152</a></div>
   <div class="footer-links">
-    <a href="#">System</a>
-    <a href="#">Technology</a>
-    <a href="#">Investors</a>
-    <a href="#">Contact</a>
+    <a href="#system">System</a>
+    <a href="#technology">Technology</a>
+    <a href="#investors">Investors</a>
+    <a href="#contact">Contact</a>
   </div>
 </footer>
 
@@ -1670,9 +1707,200 @@ document.querySelector('.form-submit').addEventListener('click', function() {
     btn.style.paddingRight = '36px';
   }, 1200);
 });
+
+
+// ── Scroll Progress Bar ──────────────────────────────────
+const progressBar = document.createElement('div');
+progressBar.style.cssText = 'position:fixed;top:0;left:0;height:2px;background:var(--red);z-index:9999;transition:width 0.1s;width:0%;pointer-events:none;';
+document.body.appendChild(progressBar);
+window.addEventListener('scroll', () => {
+  const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  progressBar.style.width = pct + '%';
+});
+
+// ── Counter Animation ────────────────────────────────────
+function animateCounter(el, target, duration = 1200, suffix = '') {
+  let start = 0;
+  const step = timestamp => {
+    if (!start) start = timestamp;
+    const progress = Math.min((timestamp - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(eased * target) + suffix;
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = target + suffix;
+  };
+  requestAnimationFrame(step);
+}
+
+// Animate hero stats when they enter view
+const heroStats = document.querySelectorAll('.hero-stat-n');
+const heroObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target;
+      const raw = el.textContent.trim();
+      const num = parseInt(raw);
+      if (!isNaN(num) && num > 1) {
+        const small = el.querySelector('small');
+        if (small) {
+          el.innerHTML = '0';
+          el.appendChild(small);
+          animateCounter(el, num, 1400);
+        } else {
+          animateCounter(el, num, 1400);
+        }
+      }
+      heroObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+heroStats.forEach(el => heroObserver.observe(el));
+
+// ── Spec items counter animation ────────────────────────
+const specVals = document.querySelectorAll('.spec-val');
+const specObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target;
+      const raw = el.textContent.trim();
+      const num = parseInt(raw);
+      if (!isNaN(num) && num > 1 && num < 10000) {
+        animateCounter(el, num, 1000);
+      }
+      specObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+specVals.forEach(el => specObserver.observe(el));
+
+// ── Arch layers keyboard interaction ────────────────────
+document.querySelectorAll('.arch-layer').forEach((el, i) => {
+  el.setAttribute('tabindex', '0');
+  el.setAttribute('title', el.querySelector('.arch-name')?.textContent + ' — ' + el.querySelector('.arch-hz')?.textContent);
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') el.click();
+  });
+  // Staggered pulse on load
+  setTimeout(() => {
+    el.style.borderLeftWidth = '3px';
+    setTimeout(() => { el.style.borderLeftWidth = ''; }, 300);
+  }, i * 80);
+});
+
+// ── Tech cards tilt effect ───────────────────────────────
+document.querySelectorAll('.tech-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = `perspective(600px) rotateX(${-y * 6}deg) rotateY(${x * 6}deg) translateY(-4px)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+    card.style.transition = 'transform 0.4s ease';
+    setTimeout(() => card.style.transition = '', 400);
+  });
+});
+
+// ── Spec chips interactive pulse ────────────────────────
+document.querySelectorAll('.spec-chip').forEach(chip => {
+  chip.style.cursor = 'default';
+  chip.addEventListener('click', () => {
+    chip.style.background = 'var(--red)';
+    chip.style.color = 'white';
+    chip.style.borderColor = 'var(--red)';
+    setTimeout(() => {
+      chip.style.background = '';
+      chip.style.color = '';
+      chip.style.borderColor = '';
+    }, 600);
+  });
+});
+
+// ── Form submission (mailto fallback) ───────────────────
+function submitForm() {
+  const fname = document.getElementById('f-fname')?.value.trim();
+  const lname = document.getElementById('f-lname')?.value.trim();
+  const email = document.getElementById('f-email')?.value.trim();
+  const org   = document.getElementById('f-org')?.value.trim();
+  const role  = document.getElementById('f-role')?.value;
+  const msg   = document.getElementById('f-msg')?.value.trim();
+  const btn   = document.getElementById('form-btn');
+
+  if (!email || !email.includes('@')) {
+    document.getElementById('f-email').style.borderColor = '#C41E3A';
+    document.getElementById('f-email').focus();
+    setTimeout(() => document.getElementById('f-email').style.borderColor = '', 2000);
+    return;
+  }
+  if (!msg) {
+    document.getElementById('f-msg').style.borderColor = '#C41E3A';
+    document.getElementById('f-msg').focus();
+    setTimeout(() => document.getElementById('f-msg').style.borderColor = '', 2000);
+    return;
+  }
+
+  // Animate button
+  btn.textContent = 'Sending…';
+  btn.style.opacity = '0.7';
+  btn.disabled = true;
+
+  // Build mailto
+  const subject = encodeURIComponent(`DOGMA Robotics — ${role || 'Inquiry'} from ${fname || ''} ${lname || ''}`.trim());
+  const body = encodeURIComponent(
+    `Name: ${fname} ${lname}
+Email: ${email}
+Organization: ${org || '—'}
+Role: ${role || '—'}
+
+${msg}`
+  );
+  const mailtoLink = `mailto:jortizl@dogmarobotics.com?subject=${subject}&body=${body}`;
+
+  setTimeout(() => {
+    // Show success state
+    document.getElementById('form-fields').style.display = 'none';
+    document.getElementById('form-success').style.display = 'block';
+    document.getElementById('form-email-confirm').textContent = email;
+    // Open mail client
+    window.location.href = mailtoLink;
+  }, 800);
+}
+
+// Allow Enter key on inputs to submit
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'SELECT') {
+    const btn = document.getElementById('form-btn');
+    if (btn && !btn.disabled) submitForm();
+  }
+});
+
+// ── Smooth nav active state ──────────────────────────────
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+const navObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(link => {
+        link.style.opacity = link.getAttribute('href') === '#' + e.target.id ? '1' : '0.5';
+        link.style.fontWeight = link.getAttribute('href') === '#' + e.target.id ? '600' : '';
+      });
+    }
+  });
+}, { threshold: 0.4 });
+sections.forEach(s => navObserver.observe(s));
+
+// ── Keyboard shortcut: D opens demo request ──────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'd' && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) {
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
 </script>
 </body>
 </html>
+
 
 <!-- Sección 3D Scan -->
 <section id="scan" style="padding: 80px 0; background: #0D0D0D;">
